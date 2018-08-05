@@ -21,7 +21,6 @@
         <property name="minIdle" value="5" />
     </bean>
 
-
     <!--配置sqlsessionfactory-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="configLocation" value="classpath:mybatis/SqlMapConfig.xml"></property>
@@ -31,6 +30,6 @@
     <!--配置扫描包，加载mapper代理对象-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <!--配置扫描那个包-->
-        <property name="basePackage" value="mapper.com.taotao.mapper"></property>
+        <property name="basePackage" value="com.taotao.mapper"></property>
     </bean>
 </beans>
