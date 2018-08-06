@@ -1,5 +1,8 @@
 package com.taotao.service.Impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.taotao.common.pojo.EUDataGridResult;
 import com.taotao.mapper.TbItemMapper;
 import com.taotao.pojo.TbItem;
 import com.taotao.pojo.TbItemExample;
@@ -38,5 +41,18 @@ public class ItemServiceImpl implements ItemService {
         }
         return null;
 
+    }
+
+    @Override
+    public EUDataGridResult getItemList(int page, int rows) {
+        TbItemExample tbItemExample = new TbItemExample();
+        PageHelper.startPage(page, rows);
+        List<TbItem> list = itemMapper.selectByExample(tbItemExample);
+        EUDataGridResult result = new EUDataGridResult();
+        result.setRows(list);
+
+        PageInfo<TbItem> pageInfo = new PageInfo<TbItem>(list);
+        result.setTotal(pageInfo.getTotal());
+        return result;
     }
 }
