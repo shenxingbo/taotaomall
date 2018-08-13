@@ -24,6 +24,10 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     private TbItemMapper itemMapper;
 
+    @Autowired
+    ItemService itemService;
+
+
     @Override
     public TbItem getItemById(long itemId) {
 //        下面这是根据id查询
@@ -55,4 +59,6 @@ public class ItemServiceImpl implements ItemService {
         result.setTotal(pageInfo.getTotal());
         return result;
     }
+
+
 }

@@ -3,7 +3,6 @@ package com.taotao.service.Impl;
 import com.taotao.service.PictureService;
 import com.taotao.utils.FtpUtil;
 import com.taotao.utils.IDUtils;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import org.joda.time.DateTime;
@@ -38,27 +37,29 @@ public class PictureServiceImpl implements PictureService {
     private String IMAGE_BASE_URL;
 
     @Override
-    public Map<String,String> uploadPicture(MultipartFile uploadFile) {
+    public Map uploadPicture(MultipartFile uploadFile) {
         Map<String, String> map = new HashMap<String,String>();
         try{
-            String ima
+            String imagePath = new DateTime().toString("/yyyy/MM/dd");
             String oldName = uploadFile.getOriginalFilename();
             //对文件进行重新的命名
             String newName = IDUtils.genImageName();
             newName = newName + oldName.substring(oldName.lastIndexOf("."));
-            boolean result = FtpUtil.uploadFile(FTP_ADDRESS, FTP_PORT, FTP_USERNAME, FTP_PASSWORD, FTP_BASEPATH, new DateTime().toString("/yyyy/MM/dd"), newName, uploadFile.getInputStream());
+            boolean result = FtpUtil.uploadFile(FTP_ADDRESS, FTP_PORT, FTP_USERNAME, FTP_PASSWORD, FTP_BASEPATH, imagePath, newName, uploadFile.getInputStream());
 
             if (!result) {
-                map.put("error", 1);
+                map.put("error", "1");
                 map.put("message", "文件上传失败");
                 return map;
             }
 
-            map.put("error", 0);
-            map.put("url", )
-        }catch (IOException e) {
+            map.put("error", "1");
+            map.put("url", IMAGE_BASE_URL+ imagePath + "/" + newName);
+        }catch (Exception e) {
             System.out.println("文件传输错误！！");
         }
+
+        return map;
 
     }
 }
