@@ -1,6 +1,7 @@
 package com.taotao.controller;
 
 import com.taotao.service.PictureService;
+import com.taotao.utils.JsonUtils;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,9 +22,12 @@ public class PictureController {
 
     @RequestMapping("/pic/upload")
     @ResponseBody
-    public Map pictureUpLoad(MultipartFile uploadFile) {
+    public String pictureUpLoad(MultipartFile uploadFile) {
+        System.out.println("进来了");
         Map result = pictureService.uploadPicture(uploadFile);
-        return result;
-    } 
+        //为了保证功能的兼容性，需要把result转换成字符串
+        String json = JsonUtils.objectToJson(result);
+        return json;
+    }
 
 }

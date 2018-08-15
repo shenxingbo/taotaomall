@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -15,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @Date: 2018/8/10下午5:55
  **/
 
-
+@Service
 public class PictureServiceImpl implements PictureService {
 
     @Value("${FTP_ADDRESS}")
@@ -33,12 +34,12 @@ public class PictureServiceImpl implements PictureService {
     @Value("${FTP_BASEPATH}")
     private String FTP_BASEPATH;
 
-    @Value("$(IMAGE_BASE_URL)")
+    @Value("${IMAGE_BASE_URL}")
     private String IMAGE_BASE_URL;
 
     @Override
     public Map uploadPicture(MultipartFile uploadFile) {
-        Map<String, String> map = new HashMap<String,String>();
+        Map map = new HashMap();
         try{
             String imagePath = new DateTime().toString("/yyyy/MM/dd");
             String oldName = uploadFile.getOriginalFilename();
@@ -48,14 +49,16 @@ public class PictureServiceImpl implements PictureService {
             boolean result = FtpUtil.uploadFile(FTP_ADDRESS, FTP_PORT, FTP_USERNAME, FTP_PASSWORD, FTP_BASEPATH, imagePath, newName, uploadFile.getInputStream());
 
             if (!result) {
-                map.put("error", "1");
+                map.put("error", 1);
                 map.put("message", "文件上传失败");
                 return map;
             }
 
-            map.put("error", "1");
+            map.put("error", 0);
             map.put("url", IMAGE_BASE_URL+ imagePath + "/" + newName);
         }catch (Exception e) {
+            map.put("error", 1);
+            map.put("message", "文件上传失败");
             System.out.println("文件传输错误！！");
         }
 
