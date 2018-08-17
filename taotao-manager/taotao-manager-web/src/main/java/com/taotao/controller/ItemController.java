@@ -38,8 +38,8 @@ public class ItemController {
     // 使用pojo接受表单中的内容，然后返回taotaoresult
     @RequestMapping(value = "/item/save", method = RequestMethod.POST)
     @ResponseBody
-    public TaotaoResult createItem(TbItem tbItem, String desc) throws Exception{
-        TaotaoResult result = itemService.createItem(tbItem, desc);
+    public TaotaoResult createItem(TbItem tbItem, String desc, String itemParams) throws Exception{
+        TaotaoResult result = itemService.createItem(tbItem, desc, itemParams);
         return result;
     }
 
